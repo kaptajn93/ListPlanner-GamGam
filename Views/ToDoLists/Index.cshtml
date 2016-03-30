@@ -1,0 +1,131 @@
+
+@model IEnumerable<ListPlanner_GamGam.ToDoList>
+@{
+    ViewData["Title"] = "Index";
+
+}
+@Html.AntiForgeryToken()
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th colspan="2"><h3>Your List(s)</h3></th>
+            <th><h4>Items on list</h4></th>
+            <th><h4>All done?</h4></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: toDoLists">
+        <tr id="setSuccess" data-bind= "css: cssStatusClass">
+            <td data-bind="showModal: $parent.selectedList.bind($data)" colspan="2"><h4><text data-bind="text: name" /></h4></td>
+            <td data-bind="showModal: $parent.selectedList.bind($data)"><h4><text data-bind="text: itemCount" /></h4></td>
+            <td data-bind="showModal: $parent.selectedList.bind($data)"><h4><text data-bind="text: allDoneText()" /></h4></td>
+            <td><button class="close" style="zoom:2.0; color:red" data-bind="click: $parent.removeToDoList">&times;</button></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<div class="col-lg-offset-9"><h4>You have <span data-bind="text: toDoLists().length"></span> lists</h4></div>
+
+@*--------------------------------button to tricker modal------------------------------------*@
+<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+    New list
+</button>
+@*<button type="button" class="btn btn-primary btn-md" data-bind="click:reload">
+    Reload
+</button>*@
+@*-------------------------------------modal currentList-------------------------------------------------------*@
+<br />
+<hr />
+
+<div class="modal fade" id="currentList" tabindex="-1" role="dialog" data-bind="visible:selectedList()">
+    <!-- ko if: selectedList() -->
+    <div class="modal-dialog" data-bind="with:selectedList" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="closeModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title"><text data-bind="text: name" /></h2>
+            </div>
+            <div class="modal-body">
+                <h2 style="text-align:left;float:left;">List belong to user nr: </h2>
+                <h2 style="text-align:right;float:right;" data-bind="text:userId"></h2>
+                <hr style="clear:both;" />
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Name</th>
+                            <th>Done</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: items">
+                        <tr>
+                            <td><h3><text data-bind="text: itemName" /></h3></td>
+                            <td><input type="checkbox" style="zoom:2.0" data-bind="checked: isDone," /></td>
+                            <td><h3><text data-bind="text: listItemID" /></h3></td>
+                            <td>
+                                <button type="button" class="close" style="zoom:2.0; color:red" data-bind="click: $parent.removeItem">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br /><br />
+            <center><h4>You have done (<span data-bind="text: getCount().count"></span> / <span data-bind="text: items().length"></span>)</h4></center>
+            <div class="modal-footer" data-bind="with: newItem">
+                <table>
+                    <tr>
+                        <td><input class="form-control" type="text" data-bind="value: itemName" placeholder="insert item name" /></td>
+                        <td><h1>&nbsp;</h1></td>
+                        <td><button type="button" class="btn btn-primary" data-bind="click: $parent.saveItem">Add an item</button></td>
+                    </tr>
+                </table>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            <br />
+        </div>
+    </div>
+    <!-- /ko -->
+
+</div>
+@*-------------------------------------modal New List-------------------------------------------------------*@
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-bind="with: newToDoList">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New List</h4>
+                </div>
+                <div class="modal-body">
+                    <label>List belongs to:</label>
+                    <select name="User" class="form-control" data-bind="options: $parent.user(),
+                       optionsText: 'UserName',
+                       value: $parent.newToDoList().userId, //selectedUser,
+                       optionsCaption: 'Choose...'"></select>
+                    <label>List name:</label>
+                    <input input class="form-control input-lg" type="text" data-bind="value: $parent.newToDoList().name, valueUpdate:'keyup'" placeholder="List name" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-md" data-bind="click: $parent.saveList">
+                        Save Data
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+@*@section footer {
+    <hr />
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+}*@
+
+@*______________________________________________Script section_____________________________________________*@
+@section Scripts {
+    <!-- Her er rækkefølgen vigtig, men det havde du styr på :) -->
+    <script type="text/javascript" src="@Url.Content("/Scripts/ViewScripts/listitems.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/Scripts/ViewScripts/todolists.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/Scripts/ViewScripts/viewmodels/todolist.index.js")"></script>
+}
+
+
+  

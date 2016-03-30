@@ -1,0 +1,81 @@
+@model IEnumerable<ListPlanner_GramGam.HsmDbModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <h2>Index</h2>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+               IsDone
+            </th>
+            <th>
+                ItemName
+            </th>
+            <th>
+               ToDoListID
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToDoListID)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ListItemID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ListItemID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ListItemID">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+        //______________________________________________Script section_____________________________________________
+
+
+        
+        //function Item(name, isDone) {
+        //    var self = this;
+        //    self.name = ko.observable(name);
+        //    self.isDone = ko.observable(isDone);
+        //    //self.listName = ko.observable(listName);
+        //    self.thisItem = ko.computed(function () {
+        //        return self.name() + "," + self.isDone(false)
+        //    })
+        //}
+
+        //function ItemsViewModel() {
+        //    var self = this;
+        //    self.items = ko.observableArray([
+        //        new Item("Fine wine", false),
+        //        new Item("Ham", false)
+        //    ]);
+        //    self.newItem = ko.observable(new Item());
+
+        //    self.addItem = function () {
+        //        self.items.push(new Item(self.newItem().name(), self.newItem().isDone()));
+        //        self.newItem().name("");
+        //    }
+        //    self.removeItem = function (item) { self.items.remove(item) }
+        //}
+        //ko.applyBindings(new ItemsViewModel());
+    </script>
+}

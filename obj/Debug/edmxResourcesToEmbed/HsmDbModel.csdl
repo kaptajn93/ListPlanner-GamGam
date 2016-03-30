@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ListPlannerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="HsmDbContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetUsers" EntityType="ListPlannerModel.User" />
+    <EntitySet Name="ListItem" EntityType="ListPlannerModel.ListItem" />
+    <EntitySet Name="ToDoList" EntityType="ListPlannerModel.ToDoList" />
+    <AssociationSet Name="FK_ToDoList_AspNetUsers" Association="ListPlannerModel.FK_ToDoList_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="ToDoList" EntitySet="ToDoList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ListItem_ToDoList_ToDoListID" Association="ListPlannerModel.FK_ListItem_ToDoList_ToDoListID">
+      <End Role="ToDoList" EntitySet="ToDoList" />
+      <End Role="ListItem" EntitySet="ListItem" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ToDoList" Relationship="ListPlannerModel.FK_ToDoList_AspNetUsers" FromRole="AspNetUsers" ToRole="ToDoList" />
+  </EntityType>
+  <EntityType Name="ListItem">
+    <Key>
+      <PropertyRef Name="ListItemID" />
+    </Key>
+    <Property Name="ListItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IsDone" Type="Boolean" Nullable="false" />
+    <Property Name="ItemName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ToDoListID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ToDoList">
+    <Key>
+      <PropertyRef Name="ToDoListID" />
+    </Key>
+    <Property Name="ToDoListID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Selected" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="ListPlannerModel.FK_ToDoList_AspNetUsers" FromRole="ToDoList" ToRole="AspNetUsers" />
+    <NavigationProperty Name="ListItem" Relationship="ListPlannerModel.FK_ListItem_ToDoList_ToDoListID" FromRole="ToDoList" ToRole="ListItem" />
+  </EntityType>
+  <Association Name="FK_ToDoList_AspNetUsers">
+    <End Type="ListPlannerModel.User" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="ListPlannerModel.ToDoList" Role="ToDoList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ToDoList">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ListItem_ToDoList_ToDoListID">
+    <End Type="ListPlannerModel.ToDoList" Role="ToDoList" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ListPlannerModel.ListItem" Role="ListItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ToDoList">
+        <PropertyRef Name="ToDoListID" />
+      </Principal>
+      <Dependent Role="ListItem">
+        <PropertyRef Name="ToDoListID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
