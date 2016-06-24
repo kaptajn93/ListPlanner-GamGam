@@ -98,3 +98,5 @@ C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner_GamGam\ListPlanne
 C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner_GamGam\ListPlanner_GamGam\obj\Debug\ListPlanner_GamGam.dll
 C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner_GamGam\ListPlanner_GamGam\obj\Debug\ListPlanner_GamGam.pdb
 C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner_GamGam\ListPlanner_GamGam\obj\Debug\ListPlanner_GamGam.csprojResolveAssemblyReference.cache
+C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner-GamGam\obj\Debug\ListPlanner_GamGam.dll
+C:\Users\hsm\Documents\Visual Studio 2015\Projects\ListPlanner-GamGam\obj\Debug\ListPlanner_GamGam.pdb
